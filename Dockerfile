@@ -1,12 +1,12 @@
-FROM alpine:edge
+FROM rawmind/alpine-monit:5.25-3
 
-# We have to upgrade musl, or rspamd will not work.
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
- && apk add --no-cache rspamd rspamd-controller rsyslog ca-certificates
+RUN apk add --no-cache rspamd rspamd-controller rspamd-proxy rspamd-fuzzy ca-certificates curl
 
 RUN mkdir /run/rspamd
 
-COPY conf/ /etc/rspamd
-COPY start.sh /start.sh
+COPY monit-service.conf /opt/monit/etc/conf.d
+COPY start.sh /
 
-CMD ["/start.sh"]
+EXPOSE 11332/tcp 11334/tcp 11335/tcp
+
+VOLUME ["/var/lib/rspamd"]
