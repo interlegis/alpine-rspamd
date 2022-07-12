@@ -10,6 +10,5 @@ password = "${PASSWORD}";
 enable_password = "${PASSWORD}";
 EOF
 
-
-rspamd -i
+rspamd -f -u rspamd -g rspamd
 ln -sf /proc/1/fd/1 /var/log/rspamd/rspamd.log
